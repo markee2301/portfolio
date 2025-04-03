@@ -164,7 +164,7 @@ export default function PortfolioSection() {
       </div>
 
       {/* Portfolio Grid */}
-      <div className="flex flex-col space-y-6">
+      <div className="space-y-8">
         {filteredItems.map((item, index) => (
           <div
             key={index}
@@ -175,8 +175,8 @@ export default function PortfolioSection() {
             } rounded-lg overflow-hidden border hover:border-cyan-400 transition-colors`}
           >
             <div className="p-6 md:p-8">
-              <div className="flex flex-col md:flex-row md:items-start gap-6">
-                <div className="flex-1">
+              <div className="flex flex-col gap-4">
+                <div>
                   <div className="flex flex-col gap-2 mb-3">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold">
                       {item.title}
@@ -192,14 +192,11 @@ export default function PortfolioSection() {
                   <p
                     className={`text-sm sm:text-base ${
                       isDark ? "text-gray-300" : "text-gray-600"
-                    } mb-6`}
+                    } mb-4`}
                   >
                     {item.description}
                   </p>
-                </div>
-
-                <div className="md:w-64 flex flex-col justify-between">
-                  <div className="flex flex-wrap gap-2 mb-8">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {item.technologies.slice(0, 6).map((tech, idx) => (
                       <span
                         key={idx}
@@ -211,19 +208,19 @@ export default function PortfolioSection() {
                       </span>
                     ))}
                   </div>
-                  <div className="flex justify-end mt-auto pt-4">
-                    <Link
-                      href={item.link}
-                      target="_blank"
-                      className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      View Project{" "}
-                      <ExternalLink
-                        size={16}
-                        className="sm:h-[18px] sm:w-[18px]"
-                      />
-                    </Link>
-                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <Link
+                    href={item.link}
+                    target="_blank"
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    View Project{" "}
+                    <ExternalLink
+                      size={16}
+                      className="sm:h-[18px] sm:w-[18px]"
+                    />
+                  </Link>
                 </div>
               </div>
             </div>

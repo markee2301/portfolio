@@ -1,53 +1,48 @@
 "use client";
 
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui";
+import useCachedTheme from "@/hooks/use-cached-theme";
+import { useIsMobile } from "@/components/ui";
 
 export default function ModeToggle() {
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
-
-  // Only show UI after mount to avoid hydration errors
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { isDark, mounted, toggleTheme } = useCachedTheme();
+  const isMobile = useIsMobile();
 
   if (!mounted) {
     return (
-      <button
-        className="flex items-center justify-center"
-        aria-label="Toggle theme (loading)"
+      <Button
+        variant="ghost"
+        size="icon"
+        className="w-12 h-12 overflow-visible hover:bg-transparent group"
+        disabled
       >
-        <span className="sr-only">Toggle theme</span>
         <Sun
-          className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+          className="h-8 w-8 rotate-0 scale-100 transition-all group-hover:text-primary"
           strokeWidth={1.5}
         />
-      </button>
+      </Button>
     );
   }
 
   return (
-    <button
-      className="flex items-center justify-center"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      aria-label="Toggle theme"
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className="w-12 h-12 overflow-visible hover:bg-transparent group"
     >
-      <span className="sr-only">Toggle theme</span>
-      {resolvedTheme === "dark" ? (
-        <Sun
-          className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+      {isDark ? (
+        <Moon
+          className="h-8 w-8 rotate-0 scale-100 transition-all group-hover:text-primary"
           strokeWidth={1.5}
         />
       ) : (
-        <Moon
-          className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+        <Sun
+          className="h-8 w-8 rotate-0 scale-100 transition-all group-hover:text-primary"
           strokeWidth={1.5}
         />
       )}
-    </button>
+    </Button>
   );
 }

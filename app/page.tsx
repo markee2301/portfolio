@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui";
 import { Download, Calendar } from "lucide-react";
 import Link from "next/link";
-import TechStack from "@/components/tech-stack";
 import ExperienceCards from "@/components/experience-cards";
 import ServicesGrid from "@/components/services-grid";
 import PortfolioSection from "@/components/portfolio-section";
@@ -14,6 +13,11 @@ import ContactCTA from "@/components/contact-cta";
 import { useTheme } from "next-themes";
 import Script from "next/script";
 import ExperienceTimeline from "@/components/experience-timeline";
+import ToolsCarousel from "@/components/tools-carousel";
+import TestimonialsSection from "@/components/testimonials-section";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpwork } from "@fortawesome/free-brands-svg-icons";
+import AnimatedText from "@/components/animated-text";
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
@@ -52,6 +56,21 @@ export default function Home() {
         {JSON.stringify(structuredData)}
       </Script>
 
+      {/* Calendly Widget */}
+      <Script id="calendly-css" strategy="afterInteractive">
+        {`
+          var link = document.createElement('link');
+          link.href = 'https://assets.calendly.com/assets/external/widget.css';
+          link.rel = 'stylesheet';
+          document.head.appendChild(link);
+        `}
+      </Script>
+      <Script
+        id="calendly-js"
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="afterInteractive"
+      />
+
       <main className="min-h-screen">
         {/* Hero Section */}
         <section
@@ -80,50 +99,53 @@ export default function Home() {
                   Navarro
                 </span>
               </h1>
-              <p className="text-lg leading-relaxed" itemProp="description">
-                I specialize in AI agent development, workflow automation,
-                system integration and landing page development.
+              <p
+                className="text-lg leading-relaxed text-justify"
+                itemProp="description"
+              >
+                I help businesses transform their operations through{" "}
+                <span className="text-cyan-400 font-semibold">
+                  AI Automation
+                </span>{" "}
+                and{" "}
+                <span className="text-cyan-400 font-semibold">
+                  Low-code Development
+                </span>
+                , significantly reducing manual effort by 60-80%. By combining
+                traditional programming with cutting-edge AI technology, I
+                create solutions that automate repetitive tasks and streamline
+                workflows to help companies save thousands of work hours while
+                increasing accuracy and productivity, enabling them to focus on
+                growth rather than routine operations.
               </p>
-              <div className="flex flex-row gap-2 pt-4 pb-2 pr-1">
-                <Link href="#contact">
-                  <Button className="bg-cyan-400 hover:bg-cyan-500 text-black flex items-center gap-1 whitespace-nowrap font-bold h-9 px-2.5 border-2 border-cyan-400 text-sm">
-                    Hire Me
-                  </Button>
-                </Link>
-                <Link
+              <div className="flex flex-row gap-4 pt-4 pb-2 pr-1">
+                <button
+                  onClick={() => {
+                    // @ts-ignore - Calendly is loaded from the external script
+                    window.Calendly &&
+                      window.Calendly.initPopupWidget({
+                        url: "https://calendly.com/mark-anthony-b-navarro/30min",
+                      });
+                    return false;
+                  }}
+                  className="bg-cyan-400 hover:bg-cyan-500 text-black flex items-center gap-2 whitespace-nowrap font-bold px-5 py-3 border-2 border-cyan-400 text-base rounded-md"
+                >
+                  <Calendar size={20} className="font-bold" />
+                  <span className="font-bold">Book a Meeting</span>
+                </button>
+                <a
                   href="https://docs.google.com/document/d/1LTJZiF-yWdTXZjN_I84EL6Ak8Zbr6Q_SeFw5_2lBp8U/edit?usp=sharing"
                   target="_blank"
                   rel="noopener"
+                  className={`${
+                    isDark
+                      ? "bg-white border-2 border-white text-black hover:bg-white/90"
+                      : "bg-white border-2 border-black text-black hover:bg-white/90"
+                  } flex items-center gap-2 whitespace-nowrap font-bold px-5 py-3 text-base rounded-md`}
                 >
-                  <Button
-                    variant="outline"
-                    className={`${
-                      isDark
-                        ? "border-2 border-white text-white hover:bg-white/10 font-bold"
-                        : "border-2 border-black text-black hover:bg-black/10 font-bold"
-                    } flex items-center gap-1 whitespace-nowrap h-9 px-2.5 text-sm`}
-                  >
-                    <Download size={15} />
-                    Download CV
-                  </Button>
-                </Link>
-                <Link
-                  href="https://calendly.com/mark-anthony-b-navarro/30min"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <Button
-                    variant="outline"
-                    className={`${
-                      isDark
-                        ? "border-2 border-white text-white hover:bg-white/10 font-bold"
-                        : "border-2 border-black text-black hover:bg-black/10 font-bold"
-                    } flex items-center gap-1 whitespace-nowrap h-9 px-2.5 text-sm`}
-                  >
-                    <Calendar size={15} />
-                    Book a Meeting
-                  </Button>
-                </Link>
+                  <Download size={20} className="font-bold" />
+                  <span className="font-bold">Download CV</span>
+                </a>
               </div>
             </div>
             <div className="relative w-[70%] sm:w-[60%] lg:w-[40%] aspect-square rounded-full overflow-hidden border-4 border-cyan-400 max-w-[250px] mx-auto lg:mx-0 lg:ml-auto">
@@ -189,6 +211,46 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Tools and Services Section */}
+        <section className="w-full" id="tools" aria-label="Services">
+          <div
+            className={`py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
+              isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+            }`}
+          >
+            {/* Tools Carousel */}
+            <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
+              Tools I Frequently Use
+            </h2>
+            <p
+              className={`text-sm sm:text-base text-center ${
+                isDark ? "text-gray-300" : "text-gray-700"
+              } mb-4 max-w-3xl mx-auto`}
+            >
+              Technologies and platforms I work with regularly
+            </p>
+            <ToolsCarousel />
+
+            <div className="mt-12 mb-4">
+              <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
+                My Services
+              </h2>
+              <p
+                className={`text-sm sm:text-base text-center ${
+                  isDark ? "text-gray-300" : "text-gray-700"
+                } mb-8 max-w-3xl mx-auto`}
+              >
+                I provide specialized services focused on automation, AI
+                development, and system integration to help businesses optimize
+                their operations and enhance customer experiences.
+              </p>
+            </div>
+
+            {/* Services Grid */}
+            <ServicesGrid />
+          </div>
+        </section>
+
         {/* Experience Highlights Section */}
         <section
           className="w-full"
@@ -197,7 +259,7 @@ export default function Home() {
         >
           <div
             className={`py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
-              isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+              isDark ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
             <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
@@ -215,51 +277,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services Section */}
-        <section className="w-full" id="services" aria-label="My Services">
-          <div
-            className={`py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
-              isDark ? "bg-black text-white" : "bg-white text-black"
-            }`}
-          >
-            <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
-              My Services
-            </h2>
-            <p
-              className={`text-sm sm:text-base text-center ${
-                isDark ? "text-gray-300" : "text-gray-700"
-              } mb-6 sm:mb-8 lg:mb-10 max-w-3xl mx-auto`}
-            >
-              I provide specialized services focused on automation, AI
-              development, and system integration to help businesses optimize
-              their operations and enhance customer experiences.
-            </p>
-            <ServicesGrid />
-          </div>
-        </section>
-
-        {/* Tech Stack Section */}
-        <section className="w-full" id="tools" aria-label="Technology Stack">
-          <div
-            className={`py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
-              isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
-            }`}
-          >
-            <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
-              Tech Stack
-            </h2>
-            <p
-              className={`text-sm sm:text-base text-center ${
-                isDark ? "text-gray-300" : "text-gray-700"
-              } mb-6 sm:mb-8 lg:mb-10 max-w-3xl mx-auto`}
-            >
-              I work with cutting-edge tools and platforms to deliver effective
-              automation and AI solutions.
-            </p>
-            <TechStack />
-          </div>
-        </section>
-
         {/* Portfolio Section */}
         <section
           className="w-full"
@@ -270,7 +287,7 @@ export default function Home() {
         >
           <div
             className={`py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
-              isDark ? "bg-black text-white" : "bg-white text-black"
+              isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
             }`}
           >
             <h2
@@ -292,22 +309,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* About Section */}
-        <section
-          className="w-full"
-          id="about"
-          aria-label="About Me"
-          itemScope
-          itemType="http://schema.org/AboutPage"
-        >
-          <div
-            className={`py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto ${
-              isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
-            }`}
-          >
-            <AboutSection />
-          </div>
-        </section>
+        <TestimonialsSection />
+
+        <AboutSection />
 
         {/* Contact Section */}
         <section
@@ -496,23 +500,56 @@ export default function Home() {
                         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                       </svg>
                     </Link>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">
-                    Hire Me
-                  </h3>
-                  <div className="flex flex-row flex-wrap gap-3 md:gap-4">
                     <Link
-                      href="https://www.upwork.com/freelancers/~014ae84c2a9f94c2a0"
+                      href="https://www.instagram.com/super.markee/"
                       target="_blank"
                       rel="noopener"
+                      aria-label="Instagram Profile"
                       className={`${
                         isDark
                           ? "bg-gray-800 hover:bg-gray-700"
                           : "bg-gray-200 hover:bg-gray-300"
-                      } px-3 md:px-4 py-1.5 md:py-2 rounded-lg transition-colors flex items-center gap-1.5 md:gap-2 text-sm md:text-base`}
+                      } p-2 md:p-3 rounded-lg transition-colors`}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="md:w-5 md:h-5"
+                      >
+                        <rect
+                          width="20"
+                          height="20"
+                          x="2"
+                          y="2"
+                          rx="5"
+                          ry="5"
+                        />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+
+                <div>
+                  <AnimatedText
+                    text="Hire Me"
+                    className="mb-3 md:mb-4"
+                    fontSize="text-lg md:text-xl"
+                  />
+                  <div className="flex flex-row flex-wrap gap-3 md:gap-4">
+                    <Link
+                      href="https://www.virtualstaff.ph/jobseeker/674d17617519440053e898dd/automation-expert-zapier-ma"
+                      target="_blank"
+                      rel="noopener"
+                      className="bg-cyan-400 hover:bg-cyan-500 text-black px-4 md:px-5 py-2 md:py-3 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base font-bold"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -530,17 +567,13 @@ export default function Home() {
                         <path d="m21 3-9 9" />
                         <path d="M15 3h6v6" />
                       </svg>
-                      Upwork
+                      Virtual Staff
                     </Link>
                     <Link
                       href="https://www.onlinejobs.ph/jobseekers/info/3221526"
                       target="_blank"
                       rel="noopener"
-                      className={`${
-                        isDark
-                          ? "bg-gray-800 hover:bg-gray-700"
-                          : "bg-gray-200 hover:bg-gray-300"
-                      } px-3 md:px-4 py-1.5 md:py-2 rounded-lg transition-colors flex items-center gap-1.5 md:gap-2 text-sm md:text-base`}
+                      className="bg-cyan-400 hover:bg-cyan-500 text-black px-4 md:px-5 py-2 md:py-3 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base font-bold"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -561,32 +594,16 @@ export default function Home() {
                       Onlinejobs.ph
                     </Link>
                     <Link
-                      href="https://www.virtualstaff.ph/jobseeker/674d17617519440053e898dd/automation-expert-zapier-ma"
+                      href="https://www.upwork.com/freelancers/~014ae84c2a9f94c2a0"
                       target="_blank"
                       rel="noopener"
-                      className={`${
-                        isDark
-                          ? "bg-gray-800 hover:bg-gray-700"
-                          : "bg-gray-200 hover:bg-gray-300"
-                      } px-3 md:px-4 py-1.5 md:py-2 rounded-lg transition-colors flex items-center gap-1.5 md:gap-2 text-sm md:text-base`}
+                      className="bg-cyan-400 hover:bg-cyan-500 text-black px-4 md:px-5 py-2 md:py-3 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base font-bold"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="md:w-[18px] md:h-[18px]"
-                      >
-                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
-                        <path d="m21 3-9 9" />
-                        <path d="M15 3h6v6" />
-                      </svg>
-                      Virtual Staff
+                      <FontAwesomeIcon
+                        icon={faUpwork}
+                        className="w-5 h-5 md:w-6 md:h-6"
+                      />
+                      Upwork
                     </Link>
                   </div>
                 </div>

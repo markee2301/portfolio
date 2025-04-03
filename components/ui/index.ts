@@ -2,7 +2,7 @@
 // to optimize bundle size and tree-shaking
 
 // Button - used in header, mode-toggle, and page components
-export { Button, buttonVariants } from "./button";
+export { Button } from "./button";
 
 // Badge - used in experience-cards
 export { Badge } from "./badge";

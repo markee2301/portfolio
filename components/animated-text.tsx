@@ -1,20 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export default function AnimatedName() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+interface AnimatedTextProps {
+  text: string;
+  className?: string;
+  fontSize?: string;
+  isLink?: boolean;
+  href?: string;
+}
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isDarkTheme = mounted && resolvedTheme === "dark";
-
+export default function AnimatedText({
+  text,
+  className = "",
+  fontSize = "text-xl",
+  isLink = false,
+  href = "/",
+}: AnimatedTextProps) {
   const letterVariants = {
     initial: { y: 0 },
     animate: (i: number) => ({
@@ -29,11 +32,10 @@ export default function AnimatedName() {
     }),
   };
 
-  const nameLetters = "MARK ANTHONY NAVARRO".split("");
-
-  return (
-    <Link href="/" className="font-bold text-xl flex">
-      {nameLetters.map((letter, index) => (
+  const letters = text.split("");
+  const AnimatedContent = (
+    <>
+      {letters.map((letter, index) => (
         <motion.span
           key={index}
           custom={index}
@@ -43,12 +45,25 @@ export default function AnimatedName() {
           className={letter === " " ? "mr-1" : ""}
           style={{
             display: "inline-block",
-            textShadow: isDarkTheme ? "0 0 8px rgba(6, 182, 212, 0.5)" : "none",
           }}
         >
           {letter}
         </motion.span>
       ))}
-    </Link>
+    </>
+  );
+
+  if (isLink) {
+    return (
+      <Link href={href} className={`font-bold ${fontSize} flex ${className}`}>
+        {AnimatedContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div className={`font-bold ${fontSize} flex ${className}`}>
+      {AnimatedContent}
+    </div>
   );
 }

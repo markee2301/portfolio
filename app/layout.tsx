@@ -158,6 +158,7 @@ export default function RootLayout({
                 "https://github.com/markee2301",
                 "https://www.linkedin.com/in/markee2301",
                 "https://www.facebook.com/markee2301/",
+                "https://www.instagram.com/super.markee/",
               ],
               skills: [
                 "AI Automation",
