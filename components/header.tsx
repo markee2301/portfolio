@@ -34,6 +34,22 @@ export default function Header() {
     setMounted(true);
   }, []);
 
+  // Control body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      // Prevent scrolling on the body when menu is open
+      document.body.classList.add("overflow-hidden");
+    } else {
+      // Re-enable scrolling when menu is closed
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Cleanup function to ensure scrolling is re-enabled when component unmounts
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [mobileMenuOpen]);
+
   // Memoize sections to prevent unnecessary recalculations
   const sections = useMemo(
     () =>

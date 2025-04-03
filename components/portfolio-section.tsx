@@ -144,7 +144,7 @@ export default function PortfolioSection() {
   return (
     <div className="space-y-8">
       {/* Category Filter */}
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
+      <div className="flex flex-wrap justify-center gap-2 mb-8">
         {categories.map((category) => (
           <Button
             key={category.id}
@@ -156,7 +156,7 @@ export default function PortfolioSection() {
                 : isDark
                 ? "border-white text-white hover:bg-white/10"
                 : "border-black text-black hover:bg-black/10"
-            }`}
+            } px-3 py-1 h-auto text-sm sm:text-base`}
           >
             {category.name}
           </Button>

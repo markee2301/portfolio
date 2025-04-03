@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui";
 import { Download, Calendar } from "lucide-react";
 import Link from "next/link";
 import ExperienceCards from "@/components/experience-cards";
@@ -12,7 +11,6 @@ import AboutSection from "@/components/about-section";
 import ContactCTA from "@/components/contact-cta";
 import { useTheme } from "next-themes";
 import Script from "next/script";
-import ExperienceTimeline from "@/components/experience-timeline";
 import ToolsCarousel from "@/components/tools-carousel";
 import TestimonialsSection from "@/components/testimonials-section";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -118,7 +116,7 @@ export default function Home() {
                 increasing accuracy and productivity, enabling them to focus on
                 growth rather than routine operations.
               </p>
-              <div className="flex flex-row gap-4 pt-4 pb-2 pr-1">
+              <div className="flex flex-row gap-2 pt-4 pb-2 pr-1">
                 <button
                   onClick={() => {
                     // @ts-ignore - Calendly is loaded from the external script
@@ -128,9 +126,13 @@ export default function Home() {
                       });
                     return false;
                   }}
-                  className="bg-cyan-400 hover:bg-cyan-500 text-black flex items-center gap-2 whitespace-nowrap font-bold px-5 py-3 border-2 border-cyan-400 text-base rounded-md"
+                  className="bg-cyan-400 hover:bg-cyan-500 text-black flex items-center gap-1 whitespace-nowrap font-bold px-3 py-2 border-2 border-cyan-400 text-sm sm:text-base rounded-md w-1/2 sm:w-auto justify-center"
                 >
-                  <Calendar size={20} className="font-bold" />
+                  <Calendar
+                    size={18}
+                    strokeWidth={2.5}
+                    className="flex-shrink-0"
+                  />
                   <span className="font-bold">Book a Meeting</span>
                 </button>
                 <a
@@ -141,9 +143,13 @@ export default function Home() {
                     isDark
                       ? "bg-white border-2 border-white text-black hover:bg-white/90"
                       : "bg-white border-2 border-black text-black hover:bg-white/90"
-                  } flex items-center gap-2 whitespace-nowrap font-bold px-5 py-3 text-base rounded-md`}
+                  } flex items-center gap-1 whitespace-nowrap font-bold px-3 py-2 text-sm sm:text-base rounded-md w-1/2 sm:w-auto justify-center`}
                 >
-                  <Download size={20} className="font-bold" />
+                  <Download
+                    size={18}
+                    strokeWidth={2.5}
+                    className="flex-shrink-0"
+                  />
                   <span className="font-bold">Download CV</span>
                 </a>
               </div>

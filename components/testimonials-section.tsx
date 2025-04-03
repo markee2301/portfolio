@@ -15,27 +15,36 @@ const TestimonialCard = memo(
     testimonial,
     isDark,
     index,
+    onTouchStart,
+    onTouchEnd,
+    onClick,
   }: {
     testimonial: (typeof testimonials)[0];
     isDark: boolean;
     index: number;
+    onTouchStart?: () => void;
+    onTouchEnd?: () => void;
+    onClick?: () => void;
   }) => {
     return (
       <div
         key={`${testimonial.name}-${index}`}
         className={`${
           isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-        } p-5 rounded-xl border-2 min-w-[300px] w-[300px] md:min-w-[320px] md:w-[320px] flex-shrink-0 h-[450px] md:h-[480px] flex flex-col relative overflow-hidden`}
+        } p-6 rounded-xl border-2 min-w-[300px] w-[300px] md:min-w-[320px] md:w-[320px] flex-shrink-0 h-[520px] md:h-[540px] flex flex-col relative overflow-hidden cursor-pointer`}
         style={{
           willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
           WebkitFontSmoothing: "antialiased",
         }}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onClick={onClick}
       >
         {/* Main content */}
         <div className="flex-grow flex flex-col z-10">
-          <div className="mb-1">
+          <div className="mb-2">
             <span className="text-5xl text-blue-500 font-serif leading-none">
               &ldquo;
             </span>
@@ -43,16 +52,16 @@ const TestimonialCard = memo(
           <p
             className={`${
               isDark ? "text-gray-300" : "text-gray-700"
-            } text-sm leading-relaxed flex-grow text-justify mb-5 -mt-2`}
+            } text-sm leading-[1.7] flex-grow text-justify mb-6 -mt-3`}
           >
             {testimonial.content}
           </p>
         </div>
 
         {/* Author info with decorative element */}
-        <div className="mt-auto">
+        <div className="mt-auto pt-2">
           <div
-            className={`w-10 h-1 mb-3 ${
+            className={`w-10 h-1 mb-4 ${
               isDark ? "bg-blue-500" : "bg-blue-600"
             }`}
           ></div>
@@ -86,10 +95,34 @@ function TestimonialsSectionContent({
   isDark: boolean;
   duplicatedTestimonials: typeof testimonials;
 }) {
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Touch event handlers for mobile
+  const handleTouchStart = () => {
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = () => {
+    // Use a slight delay to prevent immediate resuming when switching between cards
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 100);
+  };
+
+  // Click handler (works better for some mobile browsers)
+  const handleClick = () => {
+    setIsPaused(!isPaused);
+  };
+
   return (
-    <div className="testimonials-container overflow-hidden">
+    <div
+      className="testimonials-container overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onClick={handleClick}
+    >
       <div
-        className="testimonials-track flex gap-8"
+        className={`testimonials-track flex gap-8 ${isPaused ? "paused" : ""}`}
         style={{
           width: `${testimonials.length * TOTAL_CARD_WIDTH * 2}px`,
         }}
@@ -100,6 +133,9 @@ function TestimonialsSectionContent({
             testimonial={testimonial}
             isDark={isDark}
             index={index}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onClick={handleClick}
           />
         ))}
       </div>
@@ -185,6 +221,11 @@ export default function TestimonialsSection() {
           .testimonials-track:hover {
             animation-play-state: paused;
           }
+        }
+
+        /* For touch devices and mobile */
+        .testimonials-track.paused {
+          animation-play-state: paused;
         }
 
         /* Optimize for mobile */

@@ -32,7 +32,7 @@ export const testimonials: Testimonial[] = [
     company: "KingCaller",
     position: "Director of Operations",
     content:
-      "Mark is an exceptional AI automation expert whose sense of urgency in completing tasks is truly remarkable. He consistently delivers results with high accuracy while offering innovative solutions and insightful suggestions for improvement. Furthermore, Mark demonstrates a strong ability to support his colleagues by assisting them in resolving complex issues. His contributions have been instrumental, making him a true game-changer within our team.",
+      "Mark is an exceptional AI automation expert whose sense of urgency in completing tasks is truly remarkable. He consistently delivers results with high accuracy while offering innovative solutions and insightful suggestions for improvement. Furthermore, Mark demonstrates a strong ability to support his colleagues by assisting them in resolving complex issues. His contributions have been instrumental and game-changing.",
   },
   {
     name: "Jevijoh Nulud",
